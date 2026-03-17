@@ -1,9 +1,10 @@
-import streamlit as st
-import pickle
-import pandas as pd
+import os
 
-# Load trained model
-model = pickle.load(open("models/final_model.pkl","rb"))
+# Load model if it exists, otherwise run in demo mode
+if os.path.exists("models/final_model.pkl"):
+    model = pickle.load(open("models/final_model.pkl", "rb"))
+else:
+    model = None
 
 st.title("Stock Mispricing Classifier")
 
