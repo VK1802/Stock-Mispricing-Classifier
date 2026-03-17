@@ -1,9 +1,5 @@
 import streamlit as st
 import pandas as pd
-import pickle
-
-# Load trained model
-model = pickle.load(open("models/final_model.pkl","rb"))
 
 st.title("Stock Mispricing Classifier")
 
@@ -16,13 +12,10 @@ inflation = st.number_input("Inflation Rate")
 unemployment = st.number_input("Unemployment Rate")
 
 if st.button("Predict"):
-    
-    data = pd.DataFrame([[roa, debt_ratio, profit_margin, inflation, unemployment]],
-                        columns=["roa","debt_ratio","profit_margin","inflation","unemployment"])
 
-    prediction = model.predict(data)[0]
+    score = roa + profit_margin - debt_ratio - inflation*0.1 - unemployment*0.05
 
-    if prediction == 1:
+    if score > 0:
         st.success("Stock appears UNDERVALUED")
     else:
-        st.error("Stock appears OVERVALUUED")
+        st.error("Stock appears OVERVALUED")
